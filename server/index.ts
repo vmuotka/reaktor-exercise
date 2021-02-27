@@ -55,7 +55,7 @@ app.get('/api/category/:category', (req, res) => {
   //     console.error(err.message)
   //     return res.status(200).json(err)
   //   })
-  return res.status(200).json(response.slice(0, 50))
+  return res.status(200).json(response.slice(0, 7000))
 })
 
 app.listen(PORT, () => {
