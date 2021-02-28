@@ -15,6 +15,7 @@ const Category: FC = () => {
   const [filteredItems, setFilteredItems] = useState([])
   const [renderLimit, setRenderLimit] = useState(50) // limit the initial rendered items to the first 50
   const [loading, setLoading] = useState(true)
+  const [loadingError, setLoadingError] = useState(false)
   const [filter, setFilter] = useState('')
 
   // API-request to backend
@@ -22,6 +23,7 @@ const Category: FC = () => {
     setItems([])
     setLoading(true)
     setRenderLimit(50)
+    setLoadingError(false)
     axios.get(`/api/category/${category}`)
       .then(response => {
         setItems(response.data)
@@ -29,6 +31,7 @@ const Category: FC = () => {
       })
       .catch(err => {
         console.error(err)
+        setLoadingError(true)
       })
   }, [category])
 
@@ -61,6 +64,7 @@ const Category: FC = () => {
         />
       </form>
       {loading && <div className='w-full text-center text-gray-600 text-lg my-2'>Loading data...</div>}
+      {loadingError && <div className='w-full text-center text-red-500 text-lg my-2'>There was an error loading data. Please try again.</div>}
 
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 m-2'>
         {filteredItems.slice(0, renderLimit).map((item: ItemEntry) =>

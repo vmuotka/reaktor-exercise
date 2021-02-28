@@ -4,6 +4,7 @@
   "description": "Server package for reaktor exercise",
   "main": "index.js",
   "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "dev": "ts-node-dev index.ts",
@@ -14,6 +15,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.0",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "fast-xml-parser": "^3.18.0"
   },

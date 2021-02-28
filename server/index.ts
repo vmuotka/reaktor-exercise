@@ -3,6 +3,7 @@ import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 import parser from 'fast-xml-parser'
 import { ItemEntry } from './types/'
+import path from 'path'
 
 const app = express()
 app.use(express.json())
@@ -57,14 +58,22 @@ app.get('/api/category/:category', (req, res) => {
         ))
         .catch(err => {
           console.error(err.message)
-          return res.status(200).json(err)
+          return res.status(500).json(err)
         })
     })
     .catch(err => {
       console.error(err.message)
-      return res.status(200).json(err)
+      return res.status(500).json(err)
     })
 })
+
+// in production, serve the react-app build to client
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+  })
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
